@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  CHEF
+}
+
+enum BookingStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  chefProfile ChefProfile?
+  bookings    Booking[]    @relation("UserBookings")
+}
+
+model ChefProfile {
+  id          String   @id @default(uuid())
+  userId      String   @unique
+  experience  Int      @default(0)
+  cuisine     String   @default("")
+  location    String   @default("")
+  photoUrl    String   @default("")
+  description String   @default("")
+  rating      Float    @default(0)
+  totalRatings Int     @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  dishes   Dish[]
+  bookings Booking[] @relation("ChefBookings")
+}
+
+model Dish {
+  id        String   @id @default(uuid())
+  chefId    String
+  name      String
+  price     Float
+  category  String   @default("")
+  imageUrl  String   @default("")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  chef ChefProfile @relation(fields: [chefId], references: [id], onDelete: Cascade)
+}
+
+model Booking {
+  id        String        @id @default(uuid())
+  userId    String
+  chefId    String
+  date      DateTime
+  status    BookingStatus  @default(PENDING)
+  message   String        @default("")
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  user User        @relation("UserBookings", fields: [userId], references: [id], onDelete: Cascade)
+  chef ChefProfile @relation("ChefBookings", fields: [chefId], references: [id], onDelete: Cascade)
+}
