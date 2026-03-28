@@ -2,25 +2,25 @@ import Link from 'next/link';
 
 export default function NotFound() {
   return (
-    <div className="min-h-[80vh] flex items-center justify-center px-6">
-      <div className="text-center max-w-lg">
-        <div className="font-display text-[120px] md:text-[180px] font-light text-cream-400/5 leading-none select-none">
+    <div className="min-h-[80vh] flex items-center justify-center px-6 relative">
+      <div className="absolute inset-0 grid-bg pointer-events-none" />
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-80 h-80 bg-neon-pink/5 rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="text-center max-w-lg relative">
+        <div className="font-display text-[120px] md:text-[180px] font-bold text-neon-cyan/5 leading-none select-none"
+          style={{ textShadow: '0 0 80px rgba(0,255,245,0.1)' }}>
           404
         </div>
         <div className="-mt-12 md:-mt-20">
-          <h1 className="font-display text-3xl md:text-4xl font-light text-cream-50 mb-4">
-            Page Not <span className="italic text-gold-400">Found</span>
+          <h1 className="font-display text-3xl md:text-4xl font-bold text-white mb-4 tracking-wider">
+            PAGE <span className="text-glow-pink">NOT FOUND</span>
           </h1>
-          <p className="text-sm text-cream-400/40 mb-8 max-w-sm mx-auto">
+          <p className="text-sm text-dark-300 mb-8 max-w-sm mx-auto font-body">
             The page you&apos;re looking for doesn&apos;t exist or has been moved.
           </p>
           <div className="flex justify-center gap-4">
-            <Link href="/" className="btn-gold">
-              Go Home
-            </Link>
-            <Link href="/chefs" className="btn-outline">
-              Browse Chefs
-            </Link>
+            <Link href="/" className="btn-neon-filled">Go Home</Link>
+            <Link href="/chefs" className="btn-neon">Browse Chefs</Link>
           </div>
         </div>
       </div>

@@ -25,26 +25,30 @@ export default function Navbar() {
   };
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
-      scrolled 
-        ? 'bg-charcoal-950/90 backdrop-blur-md border-b border-cream-400/8' 
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      scrolled
+        ? 'glass border-b border-neon-cyan/10'
         : 'bg-transparent'
     }`}>
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href="/" className="group">
-            <span className="font-display text-2xl font-light text-cream-50 tracking-tight">
-              Chef<span className="text-gold-400 group-hover:text-gold-300 transition-colors duration-500">Kart</span>
+          <Link href="/" className="group flex items-center gap-2">
+            <div className="w-8 h-8 border border-neon-cyan/50 flex items-center justify-center rotate-45 group-hover:border-neon-cyan group-hover:shadow-[0_0_15px_rgba(0,255,245,0.3)] transition-all duration-500">
+              <span className="text-neon-cyan font-display text-xs font-bold -rotate-45">CK</span>
+            </div>
+            <span className="font-display text-xl font-bold tracking-wider">
+              <span className="text-white">CHEF</span>
+              <span className="text-glow-cyan">KART</span>
             </span>
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-10">
-            <Link href="/" className="text-cream-400/60 hover:text-cream-50 transition-colors duration-300 text-[13px] font-body tracking-[0.08em] uppercase">
+          <div className="hidden md:flex items-center gap-8">
+            <Link href="/" className="text-dark-200 hover:text-neon-cyan transition-all duration-300 text-sm font-display tracking-[0.1em] uppercase hover:text-shadow-[0_0_10px_rgba(0,255,245,0.5)]">
               Home
             </Link>
-            <Link href="/chefs" className="text-cream-400/60 hover:text-cream-50 transition-colors duration-300 text-[13px] font-body tracking-[0.08em] uppercase">
+            <Link href="/chefs" className="text-dark-200 hover:text-neon-cyan transition-all duration-300 text-sm font-display tracking-[0.1em] uppercase">
               Chefs
             </Link>
 
@@ -52,26 +56,26 @@ export default function Navbar() {
               <div className="relative">
                 <button
                   onClick={() => setProfileOpen(!profileOpen)}
-                  className="flex items-center gap-3 pl-3 pr-4 py-2 border border-cream-400/10 hover:border-gold-400/30 transition-all duration-500"
+                  className="flex items-center gap-3 pl-3 pr-4 py-2 border border-neon-cyan/20 hover:border-neon-cyan/50 hover:shadow-[0_0_15px_rgba(0,255,245,0.1)] transition-all duration-300"
                 >
-                  <div className="w-7 h-7 bg-gold-400 flex items-center justify-center text-charcoal-950 text-xs font-body font-bold">
+                  <div className="w-7 h-7 bg-gradient-to-br from-neon-cyan to-neon-blue flex items-center justify-center text-dark-950 text-xs font-display font-bold">
                     {user.name?.charAt(0).toUpperCase()}
                   </div>
-                  <span className="text-[13px] text-cream-300 tracking-wide">{user.name?.split(' ')[0]}</span>
+                  <span className="text-sm text-dark-100 font-body tracking-wide">{user.name?.split(' ')[0]}</span>
                 </button>
 
                 {profileOpen && (
-                  <div className="absolute right-0 mt-2 w-60 bg-charcoal-800 border border-cream-400/10 animate-reveal">
-                    <div className="px-4 py-3 border-b border-cream-400/8">
-                      <p className="text-sm font-body text-cream-100">{user.name}</p>
-                      <p className="text-xs text-cream-400/40 mt-0.5">{user.email}</p>
-                      <span className="tag-gold mt-2">{user.role}</span>
+                  <div className="absolute right-0 mt-2 w-64 glass animate-scale-in">
+                    <div className="px-4 py-3 border-b border-neon-cyan/10">
+                      <p className="text-sm font-body text-white">{user.name}</p>
+                      <p className="text-xs text-dark-200 mt-0.5">{user.email}</p>
+                      <span className="tag-neon mt-2">{user.role}</span>
                     </div>
                     {user.role === 'CHEF' && (
                       <Link
                         href="/dashboard"
                         onClick={() => setProfileOpen(false)}
-                        className="block px-4 py-3 text-[13px] text-cream-300 hover:text-gold-400 hover:bg-charcoal-900/50 transition-all duration-300 tracking-wide"
+                        className="block px-4 py-3 text-sm text-dark-100 hover:text-neon-cyan hover:bg-neon-cyan/5 transition-all duration-300 tracking-wide font-body"
                       >
                         Dashboard
                       </Link>
@@ -80,14 +84,14 @@ export default function Navbar() {
                       <Link
                         href="/bookings"
                         onClick={() => setProfileOpen(false)}
-                        className="block px-4 py-3 text-[13px] text-cream-300 hover:text-gold-400 hover:bg-charcoal-900/50 transition-all duration-300 tracking-wide"
+                        className="block px-4 py-3 text-sm text-dark-100 hover:text-neon-cyan hover:bg-neon-cyan/5 transition-all duration-300 tracking-wide font-body"
                       >
                         My Bookings
                       </Link>
                     )}
                     <button
                       onClick={handleLogout}
-                      className="block w-full text-left px-4 py-3 text-[13px] text-paprika-400 hover:bg-paprika-500/5 transition-all duration-300 tracking-wide border-t border-cream-400/5"
+                      className="block w-full text-left px-4 py-3 text-sm text-neon-pink hover:bg-neon-pink/5 transition-all duration-300 tracking-wide font-body border-t border-neon-cyan/10"
                     >
                       Sign Out
                     </button>
@@ -96,10 +100,10 @@ export default function Navbar() {
               </div>
             ) : (
               <div className="flex items-center gap-4">
-                <Link href="/login" className="text-cream-400/60 hover:text-cream-50 transition-colors duration-300 text-[13px] font-body tracking-[0.08em] uppercase">
+                <Link href="/login" className="text-dark-200 hover:text-neon-cyan transition-all duration-300 text-sm font-display tracking-[0.1em] uppercase">
                   Sign In
                 </Link>
-                <Link href="/register" className="btn-sm-gold">
+                <Link href="/register" className="btn-sm-neon">
                   Join
                 </Link>
               </div>
@@ -108,7 +112,7 @@ export default function Navbar() {
 
           {/* Mobile toggle */}
           <button
-            className="md:hidden text-cream-300 hover:text-gold-400 transition-colors"
+            className="md:hidden text-neon-cyan hover:text-neon-pink transition-colors"
             onClick={() => setMobileOpen(!mobileOpen)}
           >
             <div className="w-6 flex flex-col gap-1.5">
@@ -121,7 +125,7 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden bg-charcoal-950/98 backdrop-blur-xl border-b border-cream-400/8 animate-reveal">
+        <div className="md:hidden glass border-b border-neon-cyan/10 animate-fade-in">
           <div className="px-6 py-8 space-y-1">
             {[
               { href: '/', label: 'Home' },
@@ -133,7 +137,7 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
-                className="block py-3 text-cream-300 hover:text-gold-400 transition-colors font-display text-2xl font-light border-b border-cream-400/5"
+                className="block py-3 text-dark-100 hover:text-neon-cyan transition-colors font-display text-xl font-bold tracking-wider border-b border-neon-cyan/5"
               >
                 {link.label}
               </Link>
@@ -141,13 +145,13 @@ export default function Navbar() {
 
             <div className="pt-6">
               {user ? (
-                <button onClick={() => { handleLogout(); setMobileOpen(false); }} className="text-paprika-400 text-sm tracking-wider uppercase">
+                <button onClick={() => { handleLogout(); setMobileOpen(false); }} className="text-neon-pink text-sm tracking-wider uppercase font-display">
                   Sign Out
                 </button>
               ) : (
                 <div className="flex gap-4">
-                  <Link href="/login" onClick={() => setMobileOpen(false)} className="btn-outline flex-1 text-center">Sign In</Link>
-                  <Link href="/register" onClick={() => setMobileOpen(false)} className="btn-gold flex-1 text-center">Join</Link>
+                  <Link href="/login" onClick={() => setMobileOpen(false)} className="btn-neon flex-1 text-center">Sign In</Link>
+                  <Link href="/register" onClick={() => setMobileOpen(false)} className="btn-neon-filled flex-1 text-center">Join</Link>
                 </div>
               )}
             </div>

@@ -3,36 +3,40 @@
 export default function GlobalError({ error, reset }) {
   return (
     <html lang="en">
-      <body style={{ background: '#0A0908', color: '#F5F0E8', fontFamily: 'Syne, system-ui, sans-serif' }}>
-        <div style={{ 
-          minHeight: '100vh', 
-          display: 'flex', 
-          alignItems: 'center', 
+      <body style={{ background: '#020208', color: '#e0e0e8', fontFamily: 'Rajdhani, system-ui, sans-serif' }}>
+        <div style={{
+          minHeight: '100vh',
+          display: 'flex',
+          alignItems: 'center',
           justifyContent: 'center',
           padding: '2rem',
+          backgroundImage: 'linear-gradient(rgba(0,255,245,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,245,0.03) 1px, transparent 1px)',
+          backgroundSize: '60px 60px',
         }}>
           <div style={{ textAlign: 'center', maxWidth: '480px' }}>
-            <div style={{ 
-              fontFamily: '"Cormorant Garamond", Georgia, serif', 
-              fontSize: '64px', 
-              fontWeight: 300,
-              color: 'rgba(245,240,232,0.05)',
+            <div style={{
+              fontFamily: 'Orbitron, system-ui, sans-serif',
+              fontSize: '64px',
+              fontWeight: 700,
+              color: 'rgba(0,255,245,0.1)',
               lineHeight: 1,
-              marginBottom: '-16px',
+              marginBottom: '16px',
+              textShadow: '0 0 40px rgba(0,255,245,0.1)',
             }}>
-              ◇
+              &#9674;
             </div>
-            <h1 style={{ 
-              fontFamily: '"Cormorant Garamond", Georgia, serif',
-              fontSize: '28px',
-              fontWeight: 300,
+            <h1 style={{
+              fontFamily: 'Orbitron, system-ui, sans-serif',
+              fontSize: '24px',
+              fontWeight: 700,
+              letterSpacing: '0.15em',
               marginBottom: '12px',
             }}>
-              Something went wrong
+              SOMETHING WENT WRONG
             </h1>
-            <p style={{ 
-              fontSize: '13px',
-              color: 'rgba(212,200,184,0.4)',
+            <p style={{
+              fontSize: '14px',
+              color: '#505070',
               marginBottom: '24px',
             }}>
               An unexpected error occurred. Please try again.
@@ -40,14 +44,14 @@ export default function GlobalError({ error, reset }) {
             <button
               onClick={() => reset()}
               style={{
-                padding: '12px 28px',
-                background: '#D4A843',
-                color: '#0A0908',
+                padding: '14px 32px',
+                background: 'linear-gradient(135deg, #00fff5, #00b4d8)',
+                color: '#020208',
                 border: 'none',
-                fontFamily: 'Syne, sans-serif',
-                fontWeight: 600,
+                fontFamily: 'Orbitron, sans-serif',
+                fontWeight: 700,
                 fontSize: '12px',
-                letterSpacing: '0.08em',
+                letterSpacing: '0.15em',
                 textTransform: 'uppercase',
                 cursor: 'pointer',
               }}

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import api from '@/lib/api';
+import { DEMO_CHEFS } from '@/lib/demoData';
 
 const CUISINES = ['All', 'North Indian', 'South Indian', 'Mughlai', 'Continental', 'Chinese', 'Italian'];
 
@@ -25,8 +26,20 @@ export default function ChefsPage() {
       if (search) params.search = search;
       const res = await api.get('/chefs', { params });
       setChefs(res.data);
-    } catch (err) {
-      console.error('Failed to fetch chefs');
+    } catch {
+      let filtered = [...DEMO_CHEFS];
+      if (cuisine !== 'All') filtered = filtered.filter(c => c.cuisine === cuisine);
+      if (search) {
+        const q = search.toLowerCase();
+        filtered = filtered.filter(c =>
+          c.user.name.toLowerCase().includes(q) ||
+          c.cuisine.toLowerCase().includes(q) ||
+          c.location.toLowerCase().includes(q)
+        );
+      }
+      if (sortBy === 'rating') filtered.sort((a, b) => b.rating - a.rating);
+      else if (sortBy === 'experience') filtered.sort((a, b) => b.experience - a.experience);
+      setChefs(filtered);
     } finally {
       setLoading(false);
     }
@@ -38,27 +51,28 @@ export default function ChefsPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-16">
+    <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-16 relative">
+      <div className="absolute top-0 right-0 w-80 h-80 bg-neon-purple/5 rounded-full blur-[120px] pointer-events-none" />
+
       {/* Header */}
-      <div className="mb-16 reveal-item">
+      <div className="mb-16 animate-fade-in relative">
         <span className="text-overline">Our Collection</span>
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mt-4">
           <h1 className="heading-section">
-            Browse <span className="italic text-gold-400">Chefs</span>
+            BROWSE <span className="text-glow-cyan">CHEFS</span>
           </h1>
-          <p className="text-cream-400/40 text-sm max-w-sm lg:text-right">
+          <p className="text-dark-300 text-sm max-w-sm lg:text-right font-body">
             Discover culinary artists who bring exceptional dining experiences to your doorstep.
           </p>
         </div>
-        <div className="gold-line mt-8" />
+        <div className="neon-line mt-8" />
       </div>
 
       {/* Filters */}
-      <div className="border border-cream-400/8 p-6 mb-10 reveal-item delay-1">
+      <div className="card-neon p-6 mb-10 animate-fade-in delay-1">
         <div className="flex flex-col md:flex-row gap-4">
-          {/* Search */}
           <form onSubmit={handleSearch} className="flex-1 relative">
-            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-cream-400/30 text-sm">◎</span>
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-neon-cyan/40 text-sm font-display">&#9678;</span>
             <input
               type="text"
               value={search}
@@ -67,38 +81,27 @@ export default function ChefsPage() {
               className="field pl-10"
             />
           </form>
-
-          <select
-            value={cuisine}
-            onChange={(e) => setCuisine(e.target.value)}
-            className="field-select md:w-48"
-          >
+          <select value={cuisine} onChange={(e) => setCuisine(e.target.value)} className="field-select md:w-48">
             {CUISINES.map((c) => (
               <option key={c} value={c}>{c === 'All' ? 'All Cuisines' : c}</option>
             ))}
           </select>
-
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            className="field-select md:w-48"
-          >
+          <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="field-select md:w-48">
             <option value="rating">Top Rated</option>
             <option value="experience">Most Experienced</option>
             <option value="newest">Newest</option>
           </select>
         </div>
 
-        {/* Cuisine pills */}
         <div className="flex flex-wrap gap-2 mt-5">
           {CUISINES.map((c) => (
             <button
               key={c}
               onClick={() => setCuisine(c)}
-              className={`px-4 py-1.5 text-[11px] font-body font-semibold tracking-[0.12em] uppercase border transition-all duration-500 ${
+              className={`px-4 py-1.5 text-[11px] font-display font-semibold tracking-[0.12em] uppercase border transition-all duration-500 ${
                 cuisine === c
-                  ? 'bg-gold-400 text-charcoal-950 border-gold-400'
-                  : 'bg-transparent text-cream-400/40 border-cream-400/10 hover:border-cream-400/25 hover:text-cream-300'
+                  ? 'bg-neon-cyan/20 text-neon-cyan border-neon-cyan shadow-[0_0_15px_rgba(0,255,245,0.2)]'
+                  : 'bg-transparent text-dark-300 border-dark-400 hover:border-neon-cyan/30 hover:text-neon-cyan/70'
               }`}
             >
               {c}
@@ -109,64 +112,53 @@ export default function ChefsPage() {
 
       {/* Results */}
       {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {[1, 2, 3, 4, 5, 6].map((i) => (
-            <div key={i} className="border border-cream-400/5">
-              <div className="aspect-[3/4] bg-charcoal-800 animate-pulse" />
+            <div key={i} className="card-neon">
+              <div className="aspect-[3/4] bg-dark-800 animate-pulse" />
               <div className="p-5 space-y-3">
-                <div className="h-4 bg-cream-400/5 w-2/3" />
-                <div className="h-3 bg-cream-400/5 w-1/2" />
+                <div className="h-4 bg-neon-cyan/5 w-2/3 rounded" />
+                <div className="h-3 bg-neon-cyan/5 w-1/2 rounded" />
               </div>
             </div>
           ))}
         </div>
       ) : chefs.length === 0 ? (
-        <div className="text-center py-24 border border-cream-400/8">
-          <span className="font-display text-5xl text-cream-400/20 block mb-4">◇</span>
-          <h3 className="font-display text-2xl text-cream-50 mb-2">No chefs found</h3>
-          <p className="text-sm text-cream-400/40">Try adjusting your filters or search terms</p>
+        <div className="text-center py-24 card-neon">
+          <span className="font-display text-5xl text-neon-cyan/20 block mb-4">&#9674;</span>
+          <h3 className="font-display text-2xl text-white mb-2 tracking-wider">NO CHEFS FOUND</h3>
+          <p className="text-sm text-dark-300 font-body">Try adjusting your filters or search terms</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {chefs.map((chef, i) => (
             <Link
               key={chef.id}
               href={`/chefs/${chef.id}`}
-              className={`group relative overflow-hidden border border-cream-400/5 hover:border-gold-400/15 transition-all duration-700 reveal-item delay-${Math.min(i + 1, 6)}`}
+              className={`group relative overflow-hidden card-neon animate-fade-in delay-${Math.min(i + 1, 6)}`}
             >
-              {/* Image */}
               <div className="aspect-[3/4] overflow-hidden relative">
                 <img
                   src={chef.photoUrl || 'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=400&h=500&fit=crop'}
                   alt={chef.user?.name}
-                  className="w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000 ease-out"
+                  className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950 via-charcoal-950/30 to-transparent" />
-
-                {/* Cuisine tag */}
-                <div className="absolute top-4 left-4">
-                  <span className="tag-gold">{chef.cuisine}</span>
-                </div>
-
-                {/* Rating */}
-                <div className="absolute top-4 right-4 font-body text-xs text-gold-400 tracking-wider">
-                  ★ {chef.rating}
+                <div className="absolute inset-0 bg-gradient-to-t from-dark-950 via-dark-950/40 to-transparent" />
+                <div className="absolute top-4 left-4"><span className="tag-neon">{chef.cuisine}</span></div>
+                <div className="absolute top-4 right-4 text-neon-green font-display text-xs tracking-wider">&#9733; {chef.rating}</div>
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 overflow-hidden pointer-events-none">
+                  <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-neon-cyan to-transparent animate-scan-line" />
                 </div>
               </div>
-
-              {/* Content */}
               <div className="absolute bottom-0 left-0 right-0 p-5">
-                <h3 className="font-display text-xl text-cream-50 group-hover:text-gold-400 transition-colors duration-500 mb-1">
+                <h3 className="font-display text-lg font-bold text-white group-hover:text-neon-cyan transition-colors duration-500 tracking-wider mb-1">
                   {chef.user?.name}
                 </h3>
-                <p className="text-[11px] font-body tracking-[0.1em] uppercase text-cream-400/40 mb-3">
-                  {chef.location} · {chef.experience} years · {chef.dishes?.length || 0} dishes
+                <p className="text-[11px] font-display tracking-[0.1em] uppercase text-dark-300 mb-2">
+                  {chef.location} &middot; {chef.experience} years &middot; {chef.dishes?.length || 0} dishes
                 </p>
-                <p className="text-xs text-cream-400/30 line-clamp-2 leading-relaxed">{chef.description}</p>
+                <p className="text-xs text-dark-400 line-clamp-2 leading-relaxed font-body">{chef.description}</p>
               </div>
-
-              {/* Hover corner */}
-              <div className="absolute top-0 right-0 w-0 h-0 border-t-[40px] border-l-[40px] border-t-gold-400/0 border-l-transparent group-hover:border-t-gold-400/20 transition-all duration-700" />
             </Link>
           ))}
         </div>
