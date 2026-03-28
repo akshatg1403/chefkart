@@ -10,7 +10,7 @@ services:
     plan: free
     runtime: node
     rootDir: backend
-    buildCommand: npm install && npx prisma generate && npx prisma db push && node prisma/seed.js
+    buildCommand: npm install --legacy-peer-deps && npx prisma generate && npx prisma db push && node prisma/seed.js
     startCommand: npm start
     envVars:
       - key: NODE_ENV
