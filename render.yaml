@@ -22,4 +22,4 @@ services:
           name: chefkart-db
           property: connectionString
       - key: FRONTEND_URL
-        value: https://chefkart.vercel.app
+        value: https://frontend-mu-rosy-75.vercel.app
