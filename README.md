@@ -17,7 +17,7 @@ A premium marketplace connecting food lovers with exceptional personal chefs for
 - **PostgreSQL** — Relational database
 - **JWT** — JSON Web Token authentication
 - **bcryptjs** — Password hashing
-- **Cloudinary** — Image storage 
+- **Cloudinary** — Image storage ..
 
 ## Project Structure
 
